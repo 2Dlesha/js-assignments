@@ -223,20 +223,24 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {    
-    let tt = ""
+    let result = ""
     for (let i = 0; i < str.length; i++)
     {
       let char =  str.charAt(i)
       if ((( char >= "A") && (char < "N")) || (( char >= "a") && (char < "n")) )
       {
-        tt += String.fromCharCode(str.charCodeAt(i) + 13)[0];
+        result += String.fromCharCode(str.charCodeAt(i) + 13)[0];
+      }
+      else if ((( char >= "N") && (char <= "Z")) || (( char >= "n") && (char <= "z")) )
+      {
+        result += (String.fromCharCode(str.charCodeAt(i) - 13))[0];
       }
       else
       {
-        tt += (String.fromCharCode(str.charCodeAt(i) - 13))[0];
+         result += str[i];     
       }
     }
-    return tt
+    return result
 }
 
 /**
@@ -253,7 +257,7 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    return (typeof str === "string");
+    return ((typeof value) === "string");
 }
 
 
