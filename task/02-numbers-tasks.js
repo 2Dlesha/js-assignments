@@ -54,8 +54,11 @@ function getCicleCircumference(radius) {
  *  -3, 3  => 0
  */
 function getAverage(value1, value2) {
-    throw new Error('Not implemented');
-    return ((value1 + value2) / 2).toFixed(0);
+ //   throw new Error('Not implemented');
+      if (Number.isSafeInteger(((value1 + value2) / 2)))
+    return ((value1 + value2) / 2)
+  else
+    return Infinity;
 }
 
 /**
