@@ -261,7 +261,7 @@ function isString(value) {
 	{
     		return true;
 	}
-	else if (((typeof value) == "object")&&((typeof value.valueOf()) == "string"))
+	else if (((typeof value) == "object")&&( value !== null )&&((typeof value.valueOf()) == "string"))
 	{
 		return true;
 	}
