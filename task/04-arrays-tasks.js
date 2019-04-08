@@ -579,14 +579,7 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-   let mas = [];
-   arr.map(function(item,index){
-      if (!mas.includes(item))
-      {
-         mas.push(item);
-      }
-   });
-   return mas;
+   return  (arr.filter(function(value, index, self){return self.indexOf(value) === index;}));
 }
 
 /**
