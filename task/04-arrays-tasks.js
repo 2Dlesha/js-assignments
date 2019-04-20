@@ -23,7 +23,6 @@
  *    [0, 1, 2, 3, 4, 5], 5    => 5
  */
 function findElement(arr, value) {
-
    return arr.indexOf(value);
 }
 
@@ -306,49 +305,7 @@ function propagateItemsByPositionIndex(arr) {
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
 function get3TopItems(arr) {
-   let top = [];
-   let pos = 0;
-   if (arr.length >= 1)
-   {
-    top.push(arr[0]);
-    arr.map(function(item,index){
-    if (top[0] < item)
-    {
-      pos = 0;
-      top[0] = item;
-      pos = index;
-    }
-    });
-    arr.splice(pos,1);
-   }
-   if (arr.length >= 1)
-   {
-    pos = 0;
-    top.push(arr[0]);
-    arr.map(function(item,index){
-    if (top[1] < item)
-    {
-      top[1] = item;
-      pos = index;
-    }
-    });
-    arr.splice(pos,1);
-   }
-
-   if (arr.length >= 1)
-   {
-    pos = 0;
-    top.push(arr[0]);
-    arr.map(function(item,index){
-    if (top[2] < item)
-    {
-      top[2] = item;
-      pos = index;
-    }
-    });
-    arr.splice(pos,1);
-   }
-   return top;
+   return arr.sort((a,b)=>{if (a > b) return -1;if (a < b) return 1;}).filter((item,index)=>index < 3);
 }
  
 /**  
@@ -425,13 +382,7 @@ function getItemsSum(arr) {
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
 function getFalsyValuesCount(arr) {
-   return arr.reduce(function(prev,curr){
-      if(!curr)
-      {
-         return prev + 1;
-      }
-      return prev;
-   },0);
+   return arr.filter((item)=>!item).length;
 }
 
 /**
@@ -579,7 +530,14 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-   return  (arr.filter(function(value, index, self){return self.indexOf(value) === index;}));
+   let mas = [];
+   arr.map(function(item,index){
+      if (!mas.includes(item))
+      {
+         mas.push(item);
+      }
+   });
+   return mas;
 }
 
 /**
@@ -613,19 +571,15 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-   /*let map = new Map;
-   array.map(function(item,index){
-      if (!map.has(item[keySelector]))
+   let map = new Map();
+
+   array.map(function(item){
+      if (!map.has(keySelector(item)))
       {
-         map.set(item[keySelector],[item[valueSelector]]);
-      }
-      else
-      {  
-         let buf = map.get(item[keySelector]);
-         map.set(item[keySelector],buf.concat([item[valueSelector]]));
+         map.set(keySelector(item),array.filter(element => (keySelector(item) == keySelector(element))).map(itm =>  valueSelector(itm)))
       }
    });
-   return map;*/
+   return map;
    throw new Error('Not implemented');
 }
 
@@ -642,7 +596,8 @@ function group(array, keySelector, valueSelector) {
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-    throw new Error('Not implemented');
+   return arr.reduce((sum,curr) => sum.concat(childrenSelector(curr)),[]);
+    throw new Error('Not implemented');s
 }
 
 
@@ -659,6 +614,8 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
+   indexes.map(item => {arr = arr[item]});
+   return arr;
    throw new Error('Not implemented');
 }
 
