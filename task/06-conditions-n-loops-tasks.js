@@ -337,27 +337,24 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    /*let ccns = ccn.toString();
-    let sum = ccns[ccns.length-1];
-    let nDigits = ccns.length;
-    let parity = nDigits % 2;
-    let i;
-    for (i = 0; i <= nDigits - 2; i++) 
+    let sum = 0;
+    let digits = String(ccn);
+    
+    for (let i = 0; i < digits.length; i++) 
     {
-        let digit = ccns[i];
-        if (i % 2 == parity)
+        let cardNum = parseInt(digits[i]);
+        if ((digits.length - i) % 2 === 0)
         {
-            digit = digit * 2;
+            cardNum = cardNum * 2;   
+           if (cardNum > 9)
+           {
+                cardNum = cardNum - 9;
+           }
         }
-        if (digit > 9)
-        {
-            digit = digit - 9;
-        } 
-        sum = sum + digit;
+    
+        sum += cardNum;
     }
-    return (sum % 10) == 0 ;*/
-
-    throw new Error('Not implemented');
+    return sum % 10 === 0;
 }
 
 
@@ -414,6 +411,25 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true   '[{]}'
  */
 function isBracketsBalanced(str) {
+    let openBrakets = ['(','{','[','<'];
+    let closeBrakets = [')','}',']','>'];
+    let check = [];
+    for(let i = 0; i < str.length; i++)
+    {
+        if (openBrakets.indexOf(str[i]) != -1 )
+            check.push(str[i]);
+        else
+        {
+            if(check.length !== 0 && (openBrakets.indexOf(check[check.length - 1]) == closeBrakets.indexOf(str[i])))
+                check.pop(str[i]);
+            else
+            {
+                if(closeBrakets.indexOf(str[i]) !== -1)
+                    check.push("unbalanced");
+            }
+        }
+    }
+    return (check.length === 0 ? true : false);
     throw new Error('Not implemented');
 }
 
@@ -474,7 +490,14 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    var symbols="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    var s = "";
+    var availibleSymbols = symbols.slice(0,n);
+    while(num > 0){
+        s = availibleSymbols[num % n] +  String(s);
+        num = Math.floor(num / n);
+    }
+    return s;
 }
 
 
